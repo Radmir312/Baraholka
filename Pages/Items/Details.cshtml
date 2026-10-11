@@ -1,0 +1,124 @@
+@page "/Items/{id:int}"
+@model Baraholka.Pages.Items.DetailsModel
+@{
+    ViewData["Title"] = Model.Item.Title;
+}
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm p-3">
+            <img src="@Model.Item.ImageUrl" class="detail-img rounded" alt="@Model.Item.Title" asp-append-version="true" />
+            <div class="card-body px-0">
+                <div class="d-flex gap-2 align-items-center mb-2">
+                    <span class="badge bg-secondary">@Model.Item.Category</span>
+                    @if (Model.Item.IsBooked)
+                    {
+                        <span class="badge bg-danger">Забронирован</span>
+                    }
+                    else if (Model.Item.IsActive)
+                    {
+                        <span class="badge bg-success">Опубликовано</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Снято с публикации</span>
+                    }
+                </div>
+                <h3 class="fw-bold">@Model.Item.Title</h3>
+                <p class="text-secondary mt-3">@Model.Item.Description</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card shadow-sm p-4 mb-3">
+            <div class="text-muted small">Цена</div>
+            <div class="fs-2 fw-bold text-primary mb-3">@Model.Item.Price.ToString("N0") ₽</div>
+
+            @if (Model.Item.IsBooked)
+            {
+                <button class="btn btn-secondary w-100" disabled>Товар забронирован</button>
+            }
+            else if (!Model.Item.IsActive)
+            {
+                <button class="btn btn-secondary w-100" disabled>Товар снят с публикации</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-warning fw-bold w-100" data-bs-toggle="modal" data-bs-target="#orderModal">
+                    Заказать
+                </button>
+            }
+        </div>
+
+        <div class="card shadow-sm p-4 mb-3">
+            <h5 class="fw-bold mb-3">Контакты продавца</h5>
+            <p class="mb-1"><strong>Имя:</strong> @Model.Item.SellerName</p>
+            <p class="mb-0"><strong>Телефон:</strong> @Model.Item.SellerPhone</p>
+        </div>
+
+        <div class="card shadow-sm p-4">
+            <h5 class="fw-bold mb-3">Управление объявлением</h5>
+            <div class="d-grid gap-2">
+                <form method="post" asp-page-handler="Toggle" asp-route-id="@Model.Item.Id">
+                    <button type="submit" class="btn btn-outline-secondary w-100">
+                        @(Model.Item.IsActive ? "Снять с публикации" : "Опубликовать")
+                    </button>
+                </form>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Item.Id" onsubmit="return confirm('Удалить объявление?');">
+                    <button type="submit" class="btn btn-outline-danger w-100">
+                        Удалить объявление
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Оформление заказа</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" asp-page-handler="Order" asp-route-id="@Model.Item.Id">
+                <div class="modal-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Order.Name" class="form-label"></label>
+                        <input asp-for="Order.Name" class="form-control" />
+                        <span asp-validation-for="Order.Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Order.Phone" class="form-label"></label>
+                        <input asp-for="Order.Phone" class="form-control" />
+                        <span asp-validation-for="Order.Phone" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Order.Comment" class="form-label"></label>
+                        <textarea asp-for="Order.Comment" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Order.Comment" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-warning fw-bold">Подтвердить заказ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @if (ViewData["ShowModal"] as bool? == true)
+    {
+        <script>
+            new bootstrap.Modal(document.getElementById('orderModal')).show();
+        </script>
+    }
+}

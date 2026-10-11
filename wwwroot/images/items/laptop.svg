@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#27272a"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" rx="16" fill="url(#bgl)"/>
+  <g transform="translate(150, 70)">
+    <!-- Screen -->
+    <rect x="30" y="20" width="240" height="150" rx="8" fill="#3f3f46" stroke="#71717a" stroke-width="3"/>
+    <rect x="42" y="32" width="216" height="126" fill="#09090b" rx="4"/>
+    <circle cx="150" cy="95" r="28" fill="#e11d48" opacity="0.8"/>
+    <!-- Keyboard Base -->
+    <polygon points="10,175 290,175 310,210 -10,210" fill="#27272a" stroke="#52525b" stroke-width="2"/>
+    <rect x="115" y="190" width="70" height="15" rx="3" fill="#3f3f46"/>
+    <!-- Red TrackPoint -->
+    <circle cx="150" cy="180" r="3" fill="#ef4444"/>
+  </g>
+  <text x="300" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">ThinkPad T14 Gen 2</text>
+  <text x="300" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#a1a1aa" text-anchor="middle">Ryzen 7 • 16 GB • 512 GB SSD</text>
+</svg>

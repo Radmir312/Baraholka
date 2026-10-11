@@ -1,0 +1,12 @@
+.card-img-top {
+    height: 220px;
+    object-fit: cover;
+    background-color: #f8f9fa;
+}
+
+.detail-img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: contain;
+    background-color: #f8f9fa;
+}
